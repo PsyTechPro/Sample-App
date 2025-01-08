@@ -6,13 +6,17 @@ on:
 jobs:
   keep-alive:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write      # This line gives permission to modify repository contents
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
-        
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}  # Use the automatic GITHUB_TOKEN
+          
       - name: Create empty commit
         run: |
-          git config --global user.name 'github-actions'
-          git config --global user.email 'github-actions@github.com'
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
           git commit --allow-empty -m "keep-alive commit"
           git push
